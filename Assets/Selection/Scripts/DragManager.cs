@@ -14,6 +14,7 @@ public class DragManager : MonoBehaviour
         if(!isDragging) { return; }
         var rect = GetRect(mousePosition, Input.mousePosition);
         DrawRect(rect, properties.SelectionColor);
+        DrawRectBorder(rect);
     }
 
     void Start()
@@ -62,6 +63,7 @@ public class DragManager : MonoBehaviour
 
     private void DrawRectBorder(Rect rect)
     {
+        if(properties.BorderWidth <= 0) { return; }
         var top = new Rect(rect.xMin, rect.yMin, rect.width, properties.BorderWidth);
         var bottom = new Rect(rect.xMin, rect.yMax - properties.BorderWidth, rect.width, properties.BorderWidth);
         var left = new Rect(rect.xMin, rect.yMin, properties.BorderWidth, rect.height);
