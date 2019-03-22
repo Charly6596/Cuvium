@@ -1,2 +1,46 @@
 * Cuvium TODO
-** Write todos
+** DONE Write todos
+   CLOSED: [2019-03-22 vie]
+** DONE Drag unit selection 
+   CLOSED: [2019-03-22 vie]
+** TODO Structures [0/2] 
+   - [ ] Building selection.
+   - [ ] Units can join structures.
+   - [ ] Units can leave structures.
+   - [ ] Neutral structures.
+** TODO Units [4/8]
+   - [X] Selection.
+   - [X] Movement.
+   - [X] Multi-selection.
+   - [X] Selection with click and drag
+   - [ ] Attack and defense.
+   - [ ] Heroes, special units and barracks units.
+   - [ ] Formations.
+   - [ ] Ranged, healers, light melee, heavy melee, lancers, cavalry...
+   - [ ] Different attack types based on the unit type.
+   - [ ] Pasives.
+   - [ ] Actives.
+** TODO Items [0/7]
+   - [ ] Base entities.
+   - [ ] Unit inventory.
+   - [ ] Drop items.
+   - [ ] Structures with items.
+   - [ ] Item usage events.
+   - [ ] Item passive effects.
+   - [ ] Item active effects.
+** TODO Factions [0/3]
+   - [ ] Faction specific units.
+   - [ ] Faction pasives.
+   - [ ] Faction actives.
+** TODO Players [0/1]
+   - [ ] Teams.
+** TODO GUI
+** TODO Refactor and unit tests
+** TODO Unity Editor modifications to improve game designer experience
+** TODO Diplomacy policies
+   - [ ] Shared control.
+   - [ ] No harm policy.
+   - [ ] Resource sharing.
+   - [ ] Shared victory.
+   - [ ] Shared eyes.
+** TODO Fog of war
