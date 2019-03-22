@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(DragManager))]
 public class SelectionManager : MonoBehaviour
 {
     public const KeyCode CommandKey = KeyCode.Mouse1;
     public const KeyCode SelectKey = KeyCode.Mouse0;
     public const KeyCode MultiSelectKey = KeyCode.LeftShift;
     public const KeyCode DeselectKey = KeyCode.Escape;
+    private DragManager dragManager;
     public UnitManager unitManager;
 
     void Start()
     {
         unitManager = UnitManager.Singleton;
+        dragManager = GetComponent<DragManager>();
     }
 
     void Update()
@@ -20,6 +23,10 @@ public class SelectionManager : MonoBehaviour
         {
             if(!GetHittedObject(out var hit)) { return; }
             HandleSelectInput(hit, Input.GetKey(MultiSelectKey));
+        }
+        else if(Input.GetKeyUp(SelectKey))
+        {
+            HandleSelectInputRelease(Input.GetKey(MultiSelectKey));
         }
         else if(Input.GetKeyDown(CommandKey))
         {
@@ -45,9 +52,18 @@ public class SelectionManager : MonoBehaviour
             case Tags.Unit:
                 unitManager.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
                 break;
-            case Tags.Ground:
-                unitManager.DeselectAll();
+            default:
+                dragManager.StartDragging(Input.mousePosition);
                 break;
+        }
+    }
+
+    private void HandleSelectInputRelease(bool multiSelect)
+    {
+        var units = FindObjectsOfType<UnitController>();
+        if(dragManager.TryGrabUnits(units, out var selected))
+        {
+            unitManager.Select(selected, multiSelect);
         }
     }
 

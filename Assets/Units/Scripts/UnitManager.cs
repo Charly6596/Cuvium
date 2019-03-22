@@ -32,6 +32,20 @@ public class UnitManager
         unit.Select();
     }
 
+    public void Select(UnitController[] units, bool multiSelect = false)
+    {
+        if(!multiSelect)
+        {
+            DeselectAll();
+        }
+
+        foreach(var unit in units)
+        {
+            this.units.Add(unit);
+            unit.Select();
+        }
+    }
+
     public void DeselectAll()
     {
         foreach(var unit in units)
