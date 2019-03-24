@@ -2,6 +2,7 @@
 
 namespace Cuvium.Core
 {
+    [CreateAssetMenu(menuName = "Cuvium/Item")]
     public class Item : CuviumModel
     {
         public string Description;

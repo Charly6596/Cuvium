@@ -2,7 +2,7 @@
 
 namespace Cuvium.Core
 {
-    [CreateAssetMenu(menuName = "Building")]
+    [CreateAssetMenu(menuName = "Cuvium/Building")]
     public class Building : CuviumModel
     {
     }
