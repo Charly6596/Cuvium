@@ -4,8 +4,9 @@ using System.Reflection;
 using System.Linq;
 using System;
 using System.IO;
+using Cuvium.Core;
 
-namespace Cuvium
+namespace Cuvium.EditorExtension
 {
     public class CreateEntities : EditorWindow
     {
@@ -55,7 +56,7 @@ namespace Cuvium
         [MenuItem("Cuvium/Entities")]
         public static void ShowWindow()
         {
-            GetWindow<CreateEntities>("New Entity");
+            GetWindow<CreateEntities>("CreateEntities");
         }
 
         void OnEnable()
@@ -112,9 +113,9 @@ namespace Cuvium
         private Type[] LoadEntities()
         {
             return Assembly
-                .GetAssembly(this.GetType())
+                .GetAssembly(typeof(CuviumModel))
                 .GetTypes()
-                .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(ScriptableObject)))
+                .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(CuviumModel)))
                 .ToArray();
         }
     }

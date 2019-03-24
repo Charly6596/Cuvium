@@ -3,6 +3,7 @@
    CLOSED: [2019-03-22 vie]
 ** DONE Drag unit selection 
    CLOSED: [2019-03-22 vie]
+** TODO Move to a ScriptableObject based architecture
 ** TODO Structures [0/2] 
    - [ ] Building selection.
    - [ ] Units can join structures.
@@ -21,7 +22,6 @@
    - [ ] Pasives.
    - [ ] Actives.
 ** TODO Items [0/7]
-   - [ ] Base entities.
    - [ ] Unit inventory.
    - [ ] Drop items.
    - [ ] Structures with items.
@@ -37,6 +37,7 @@
 ** TODO GUI
 ** TODO Refactor and unit tests
 ** TODO Unity Editor modifications to improve game designer experience
+   - [ ] Refactor CreateEntities window
 ** TODO Diplomacy policies
    - [ ] Shared control.
    - [ ] No harm policy.
