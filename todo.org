@@ -3,7 +3,8 @@
    CLOSED: [2019-03-22 vie]
 ** DONE Drag unit selection 
    CLOSED: [2019-03-22 vie]
-** TODO Move to a ScriptableObject based architecture
+** DONE Move to a ScriptableObject based architecture
+   CLOSED: [2019-03-30 sáb 19:20]
 ** TODO Structures [0/2] 
    - [ ] Building selection.
    - [ ] Units can join structures.
