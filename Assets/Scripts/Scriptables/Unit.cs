@@ -3,12 +3,12 @@
 namespace Cuvium.Core
 {
     [CreateAssetMenu(menuName = "Cuvium/Unit")]
-    public class Unit : CuviumModel
+    public class Unit : CuviumScriptable
     {
         public float Speed;
         public int Attack;
         public bool NeedsFood = true;
-        public Texture2D Icon;
+        public Sprite Icon;
         public Faction Faction;
         public Item[] Inventory;
     }

@@ -10,11 +10,10 @@ namespace Cuvium.Core
         public const KeyCode MultiSelectKey = KeyCode.LeftShift;
         public const KeyCode DeselectKey = KeyCode.Escape;
         private DragManager dragManager;
-        public UnitManager unitManager;
+        public SelectedUnitCollection unitManager;
 
         void Start()
         {
-            unitManager = UnitManager.Singleton;
             dragManager = GetComponent<DragManager>();
         }
 
@@ -54,10 +53,18 @@ namespace Cuvium.Core
                 case Tags.Unit:
                     unitManager.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
                     break;
+                case Tags.Structure:
+                    CreateUnit(hit.transform.GetComponent<BuildingController>());
+                    break;
                 default:
                     dragManager.StartDragging(Input.mousePosition);
                     break;
             }
+        }
+
+        private void CreateUnit(BuildingController building)
+        {
+            building.CreateUnit();
         }
 
         private void HandleSelectInputRelease(bool multiSelect)

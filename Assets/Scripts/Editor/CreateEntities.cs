@@ -113,9 +113,9 @@ namespace Cuvium.EditorExtension
         private Type[] LoadEntities()
         {
             return Assembly
-                .GetAssembly(typeof(CuviumModel))
+                .GetAssembly(typeof(CuviumScriptable))
                 .GetTypes()
-                .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(CuviumModel)))
+                .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(CuviumScriptable)))
                 .ToArray();
         }
     }

@@ -59,9 +59,16 @@ namespace Cuvium.Core
 
         public void MoveAll(Vector3 destination)
         {
+            Vector3 posSum = Vector3.zero;
             foreach(var unit in units)
             {
-                unit.Move(destination);
+                posSum += unit.transform.position;
+            }
+            Vector3 middle = posSum / units.Count;
+            foreach(var unit in units)
+            {
+                var offset = unit.transform.position - middle;
+                unit.Move(destination + offset);
             }
         }
 
