@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
+using Cuvium.Commands;
 
 namespace Cuvium.Core
 {
     [RequireComponent(typeof(DragManager))]
     public class SelectionManager : MonoBehaviour
     {
+        public ScriptableCommand MoveCommand;
         public const KeyCode CommandKey = KeyCode.Mouse1;
         public const KeyCode SelectKey = KeyCode.Mouse0;
         public const KeyCode MultiSelectKey = KeyCode.LeftShift;
         public const KeyCode DeselectKey = KeyCode.Escape;
         private DragManager dragManager;
-        public SelectedUnitCollection unitManager;
+        public SelectedObjectCollection unitManager;
 
         void Start()
         {
@@ -81,10 +83,11 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Ground:
-                    unitManager.MoveAll(hit.point);
+                  //  unitManager.MoveAll(hit.point);
+                    unitManager.Command(MoveCommand);
                     break;
                 case Tags.Unit:
-                    unitManager.Attack(hit.transform.GetComponent<UnitController>());
+                   // unitManager.Attack(hit.transform.GetComponent<UnitController>());
                     break;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Cuvium.Commands;
 
 namespace Cuvium.Core
 {
@@ -11,6 +12,7 @@ namespace Cuvium.Core
         public Sprite Icon;
         public Faction Faction;
         public Item[] Inventory;
+        public ScriptableCommand[] Commands;
     }
 }
 
