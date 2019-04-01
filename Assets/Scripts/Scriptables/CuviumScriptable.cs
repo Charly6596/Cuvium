@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Cuvium.Commands;
 
 namespace Cuvium.Core
 {
@@ -8,6 +9,7 @@ namespace Cuvium.Core
         public string Description;
         public Sprite Icon;
         public CuviumController Controller;
+        public Commands Commands;
     }
 }
 

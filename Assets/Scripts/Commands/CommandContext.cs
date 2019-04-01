@@ -7,11 +7,13 @@ namespace Cuvium.Commands
     {
         public Player Player { get; private set; }
         public Target Target { get; private set; }
+        public CuviumController Controller { get; private set; }
 
-        public CommandContext(Player player)
+        public CommandContext(Player player, CuviumController controller)
         {
             Player = player;
             Target = new Target();
+            Controller = controller;
         }
     }
 }

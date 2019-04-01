@@ -2,23 +2,25 @@
 
 namespace Cuvium.Commands
 {
+    [CreateAssetMenu(menuName = "Cuvium/Move Command")]
     public class MoveCommand : Command
     {
-        public MoveCommand(CommandContext context) : base(context)
+        private void OnEnable()
         {
+            Name = "Move";
         }
 
-        public void Execute()
+        public override ExecutionResult Execute(CommandContext context)
         {
-            var middle = Context.Player.SelectedObjects.GetMiddlePoint();
-            var objs = Context.Player.SelectedObjects.ToArray();
-            var destination = Context.Target.MousePosition;
-
-            foreach(var obj in objs)
+            var middle = context.Player.SelectedObjects.GetMiddlePoint();
+            var destination = context.Target.Hit.point;
+            var offset = context.Controller.transform.position - middle;
+            if(context.Controller is IMoveable moveable)
             {
-                var offset = obj.transform.position - middle;
-               // obj.Move(destination + offset);
+                moveable.Move(destination + offset);
+                return ExecutionResult.Suscess();
             }
+            return ExecutionResult.InvalidOperation(Context);
         }
     }
 }

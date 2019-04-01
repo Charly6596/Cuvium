@@ -20,14 +20,22 @@ namespace Cuvium.Core
             navMesh.speed = unit.Speed;
         }
 
-        public override void Command(ScriptableCommand command)
+        public override void Command(Command command)
         {
-            var ctx = new CommandContext(Owner);
+            var ctx = new CommandContext(this);
             if(currentStats.Commands.Contains(command))
             {
-                command.Execute(ctx, this);
+                command.Execute(ctx);
             }
         }
+
+        public override void Command(string command)
+        {
+            var cmd = currentStats.Commands.FirstOrDefault(c => c.Name == command);
+            if(cmd is null) { return; }
+            Command(cmd);
+        }
+
         public void Move(Vector3 destination)
         {
             Debug.Log(destination);

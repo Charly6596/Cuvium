@@ -1,12 +1,14 @@
 ﻿using Cuvium.Core;
+using UnityEngine;
 
 namespace Cuvium.Commands
 {
-    public class Command
+    public abstract class Command : ScriptableObject
     {
         public CommandContext Context { get; private set; }
+        public string Name { get; protected set; }
 
-        public Command(CommandContext context)
+        public virtual ExecutionResult Execute(CommandContext context)
         {
             Context = context;
         }

@@ -10,7 +10,8 @@ namespace Cuvium.Core
         public Player Owner;
 
 //        public abstract void InteractWith(CuviumController target);
-        public abstract void Command(ScriptableCommand command);
+        public abstract void Command(Command command);
+        public abstract void Command(string command);
 
         public void Select()
         {

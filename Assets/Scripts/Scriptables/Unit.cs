@@ -8,11 +8,11 @@ namespace Cuvium.Core
     {
         public float Speed;
         public int Attack;
+        public int Defense;
         public bool NeedsFood = true;
         public Sprite Icon;
         public Faction Faction;
         public Item[] Inventory;
-        public ScriptableCommand[] Commands;
     }
 }
 
