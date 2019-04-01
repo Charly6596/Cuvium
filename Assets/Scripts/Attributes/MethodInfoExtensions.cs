@@ -7,7 +7,7 @@ namespace Cuvium.Attributes
 {
     public static class MethodInfoExtensions
     {
-        public static MethodAttributeInfo<T>[] GetMethodsWithAttribute<T>(this Type type) where T : PropertyAttribute
+        public static MethodAttributeInfo<T>[] GetMethodsWithAttribute<T>(this Type type) where T : Attribute
         {
             return type
                 .GetMethods()
