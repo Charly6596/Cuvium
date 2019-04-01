@@ -6,7 +6,7 @@ namespace Cuvium.Core
     [RequireComponent(typeof(DragManager))]
     public class SelectionManager : MonoBehaviour
     {
-        public ScriptableCommand MoveCommand;
+        public Command MoveCommand;
         public const KeyCode CommandKey = KeyCode.Mouse1;
         public const KeyCode SelectKey = KeyCode.Mouse0;
         public const KeyCode MultiSelectKey = KeyCode.LeftShift;

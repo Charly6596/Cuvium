@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Cuvium.Behaviours;
 
 namespace Cuvium.Commands
 {
@@ -18,9 +19,9 @@ namespace Cuvium.Commands
             if(context.Controller is IMoveable moveable)
             {
                 moveable.Move(destination + offset);
-                return ExecutionResult.Suscess();
+                return ExecutionResult.Suscess(this);
             }
-            return ExecutionResult.InvalidOperation(Context);
+            return ExecutionResult.InvalidOperation(this);
         }
     }
 }

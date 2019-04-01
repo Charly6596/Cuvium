@@ -22,7 +22,7 @@ namespace Cuvium.Core
 
         public override void Command(Command command)
         {
-            var ctx = new CommandContext(this);
+            var ctx = new CommandContext(Owner, this);
             if(currentStats.Commands.Contains(command))
             {
                 command.Execute(ctx);

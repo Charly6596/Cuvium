@@ -22,6 +22,7 @@ namespace Cuvium.Commands
                     return true;
                 }
             }
+            command = null;
             return false;
         }
     }

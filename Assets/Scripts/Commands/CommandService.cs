@@ -8,20 +8,28 @@ namespace Cuvium.Commands
 {
     public class CommandService
     {
+        public ReadOnlyCollection<ModuleInfo> Commands { get; private set; }
+
         public void RegisterModules(Assembly assembly)
         {
             var types = assembly.ExportedTypes;
-            var commandModules = new List<Type>();
+            var commandModules = new List<ModuleInfo>();
             foreach(var type in types)
             {
-                if(type.BaseType == typeof(CommandModule))
+                if(type.BaseType != typeof(CommandModule))
                 {
-                    commandModules.Add(type);
+                    continue;
                 }
+                var moduleInfo = new ModuleInfo();
+                moduleInfo.Commands = GetCommands(type) as ReadOnlyCollection<CommandInfo>;
+                moduleInfo.Attributes = type.GetCustomAttributes() as ReadOnlyCollection<Attribute>;
+                moduleInfo.Name = type.Name;
+                commandModules.Add(moduleInfo);
             }
+            Commands = commandModules.AsReadOnly();
         }
 
-        private IEnumerable<CommandInfo> GetComamnds(Type module)
+        private IEnumerable<CommandInfo> GetCommands(Type module)
         {
             var commands = module
                 .GetMethodsWithAttribute<CommandAttribute>();
@@ -40,13 +48,14 @@ namespace Cuvium.Commands
                     var p = new ParameterInfo();
                     p.IsOptional = parameter.IsOptional;
                     p.Name = parameter.Name;
-                    p.Attributes = parameter.GetCustomAttributes();
+                    p.Attributes = parameter.GetCustomAttributes() as ReadOnlyCollection<Attribute>;
                     p.Type = parameter.ParameterType;
                     p.DefaultValue = parameter.DefaultValue;
-                    parameters.Add(p);
+                    parameterInfos.Add(p);
                 }
-                cmd.Parameters = parameters;
                 cmd.Name = command.AttributeInfo.Name;
+                cmd.Parameters = parameterInfos.AsReadOnly();
+                cmd.Attributes = command.MethodInfo.GetCustomAttributes() as ReadOnlyCollection<Attribute>;
                 commandInfos.Add(cmd);
             }
             return commandInfos;
@@ -56,21 +65,20 @@ namespace Cuvium.Commands
     public class ModuleInfo
     {
         public ReadOnlyCollection<CommandInfo> Commands { get; internal set;}
+        public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
+        public string Name { get; internal set; }
 
-        internal ModuleInfo(IEnumerable<CommandInfo> commands)
-        {
-            Commands = commands;
-        }
+        internal ModuleInfo(){}
     }
 
     public class CommandInfo
     {
         public ReadOnlyCollection<ParameterInfo> Parameters { get; internal set; }
+        public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
         public string Name { get; internal set; }
 
-        internal CommandInfo(IEnumerable<ParameterInfo> parameters)
+        internal CommandInfo()
         {
-            Attributes = attributes;
         }
     }
 
@@ -81,6 +89,8 @@ namespace Cuvium.Commands
         public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
         public Type Type { get; internal set; }
         public object DefaultValue { get; internal set; }
+
+        internal ParameterInfo() {}
     }
 }
 

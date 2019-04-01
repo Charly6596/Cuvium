@@ -5,13 +5,10 @@ namespace Cuvium.Commands
 {
     public abstract class Command : ScriptableObject
     {
-        public CommandContext Context { get; private set; }
         public string Name { get; protected set; }
+        public CommandContext Context;
 
-        public virtual ExecutionResult Execute(CommandContext context)
-        {
-            Context = context;
-        }
+        public abstract ExecutionResult Execute(CommandContext context);
     }
 }
 

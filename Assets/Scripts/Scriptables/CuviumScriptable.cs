@@ -9,7 +9,7 @@ namespace Cuvium.Core
         public string Description;
         public Sprite Icon;
         public CuviumController Controller;
-        public Commands Commands;
+        public CommandSet Commands;
     }
 }
 

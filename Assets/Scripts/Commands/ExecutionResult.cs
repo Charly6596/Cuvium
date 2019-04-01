@@ -9,27 +9,28 @@ namespace Cuvium.Commands
         private ExecutionResult(string errorMessage, Command command)
         {
             Command = command;
-            ErrorMesssage = errorMessage;
+            ErrorMessage = errorMessage;
             HasErrorMessage = true;
         }
 
         private ExecutionResult(Command command)
         {
             Command = command;
+            ErrorMessage = string.Empty;
             HasErrorMessage = false;
         }
         public static ExecutionResult Suscess(Command command)
         {
-            return new ExeutionResult(command);
+            return new ExecutionResult(command);
         }
         public static ExecutionResult InvalidTarget(Command command)
         {
-            return new ExecutionResult("Invalid Target" + command.Context.Target.Hit.Name, command);
+            return new ExecutionResult("Invalid Target" + command.Context.Target.Hit.transform.name, command);
         }
 
         public static ExecutionResult InvalidOperation(Command command)
         {
-            return new ExeutionResult("Invalid Operation: " + command.Name, command);
+            return new ExecutionResult("Invalid Operation: " + command.Name, command);
         }
 
     }
