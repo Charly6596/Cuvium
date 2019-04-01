@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using Cuvium.Behaviours;
+using Cuvium.Commands;
+using System.Linq;
 
 namespace Cuvium.Core
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class UnitController : MonoBehaviour
+    public class UnitController : CuviumController, IMoveable
     {
         public Unit unit;
         public Unit currentStats;
-        public Player Owner;
         [SerializeField]
         private NavMeshAgent navMesh;
-        [SerializeField]
-        private Transform highlight;
 
         void Start()
         {
@@ -20,19 +20,17 @@ namespace Cuvium.Core
             navMesh.speed = unit.Speed;
         }
 
-        public void Select()
+        public override void Command(ScriptableCommand command)
         {
-            highlight.gameObject.SetActive(true);
+            var ctx = new CommandContext(Owner);
+            if(currentStats.Commands.Contains(command))
+            {
+                command.Execute(ctx, this);
+            }
         }
-
-        public void Deselect()
-        {
-            highlight.gameObject.SetActive(false);
-        }
-
         public void Move(Vector3 destination)
         {
-            Debug.Log("Move unit");
+            Debug.Log(destination);
             navMesh.SetDestination(destination);
         }
 
@@ -41,12 +39,11 @@ namespace Cuvium.Core
             currentStats = ScriptableObject.CreateInstance<Unit>();
             currentStats.Attack = unit.Attack;
             currentStats.Speed = unit.Speed;
-            Owner.AddUnit(this);
+            currentStats.Commands = unit.Commands;
         }
 
         void OnDisable()
         {
-            Owner.RemoveUnit(this);
         }
 
         public void Attack(UnitController target)

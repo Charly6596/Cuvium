@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
 using System.Threading.Tasks;
+using Cuvium.Commands;
 
 namespace Cuvium.Core
 {
-    public class BuildingController : MonoBehaviour
+    public class BuildingController : CuviumController
     {
         public Player owner;
         public Unit unit;
         public UnitController prefab;
+
+        public override void Command(ScriptableCommand command)
+        {
+            
+        }
 
         public void CreateUnit()
         {

@@ -8,7 +8,7 @@ namespace Cuvium.UI
     public class SelectedUnitController : MonoBehaviour
     {
         [SerializeField]
-        private SelectedUnitCollection selectedUnits;
+        private SelectedObjectCollection selectedUnits;
         [SerializeField]
         private Sprite crowdIcon;
         private Dictionary<Unit, int> UnitGroups;
@@ -73,9 +73,6 @@ namespace Cuvium.UI
 
         private void GroupUnits()
         {
-            UnitGroups = selectedUnits
-                .GroupBy(u => u.unit)
-                .ToDictionary(i => i.Key, v => v.Where(u => u.unit == v.Key).Count());
         }
 
         private void Clear()
@@ -85,7 +82,6 @@ namespace Cuvium.UI
 
         private void ShowFirstUnit()
         {
-            selectedIcon.SetSprite(selectedUnits.First().unit.Icon);
         }
 
         private void ShowCount()
