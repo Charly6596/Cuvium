@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0c7d8564dd3fb2bb30025c35140bee, type: 3}
   m_Name: GreeceWarrior
   m_EditorClassIdentifier: 
+  Name: 
+  Description: 
+  Icon: {fileID: 21300000, guid: 3d95e7a54c333e97a8a6434ab7942fa2, type: 3}
+  Controller: {fileID: 0}
   Speed: 3
   Attack: 8
   NeedsFood: 1
@@ -20,3 +24,5 @@ MonoBehaviour:
   Inventory:
   - {fileID: 11400000, guid: ccfe4dba10c0d84cba5cdd990a1ab732, type: 2}
   - {fileID: 11400000, guid: c1bb899446422d834a59027896592420, type: 2}
+  Commands:
+  - {fileID: 11400000, guid: cc2e9b0a328d05e5c96b577199fe19d8, type: 2}
