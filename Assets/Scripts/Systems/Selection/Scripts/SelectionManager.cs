@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Cuvium.Commands;
+using Cuvium.InputManager;
 
 namespace Cuvium.Core
 {
@@ -7,12 +8,28 @@ namespace Cuvium.Core
     public class SelectionManager : MonoBehaviour
     {
         public Command MoveCommand;
-        public const KeyCode CommandKey = KeyCode.Mouse1;
-        public const KeyCode SelectKey = KeyCode.Mouse0;
-        public const KeyCode MultiSelectKey = KeyCode.LeftShift;
-        public const KeyCode DeselectKey = KeyCode.Escape;
+        public KeyCodeVariable RightClick;
+        public KeyCodeVariable LeftClick;
+        public KeyCodeVariable MultiSelectKey;
+        public KeyCodeVariable CancelKey;
         private DragManager dragManager;
+        public KeyCodeGameEventListener keyUp;
         public SelectedObjectCollection unitManager;
+
+        public void OnKeyUp(KeyCode key)
+        {
+            Debug.Log("Key up: " + key);
+        }
+
+        public void OnKeyDown(KeyCode key)
+        {
+            Debug.Log("Key Down: " + key);
+        }
+
+        public void OnKeyHold(KeyCode key)
+        {
+            Debug.Log("Hold key: " + key);
+        }
 
         void Start()
         {
@@ -22,21 +39,21 @@ namespace Cuvium.Core
         void Update()
         {
 
-            if(Input.GetKeyDown(SelectKey))
+            if(Input.GetKeyDown(LeftClick))
             {
                 if(!GetHittedObject(out var hit)) { return; }
                 HandleSelectInput(hit, Input.GetKey(MultiSelectKey));
             }
-            else if(Input.GetKeyUp(SelectKey))
+            else if(Input.GetKeyUp(LeftClick))
             {
                 HandleSelectInputRelease(Input.GetKey(MultiSelectKey));
             }
-            else if(Input.GetKeyDown(CommandKey))
+            else if(Input.GetKeyDown(RightClick))
             {
                 if(!GetHittedObject(out var hit)) { return; }
                 HandleCommandInput(hit);
             }
-            else if(Input.GetKeyDown(DeselectKey))
+            else if(Input.GetKeyDown(CancelKey))
             {
                 HandleDeselectInput();
             }
