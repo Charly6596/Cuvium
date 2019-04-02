@@ -1,18 +1,17 @@
 using System;
-using UnityEngine;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Cuvium.Attributes;
+using Cuvium.Core;
 
 namespace Cuvium.Commands
 {
     public class CommandService
     {
         public IEnumerable<ModuleInfo> ModulesInfo { get; private set; }
-        public IEnumerable<CommandInfo> Commands => ModulesInfo.SelectMany(m => m.Commands);
         private Dictionary<string, object> CommandsModules;
+
         public void RegisterModules(Assembly assembly)
         {
             var types = assembly.ExportedTypes;
@@ -27,11 +26,25 @@ namespace Cuvium.Commands
                 moduleInfo.Name = type.Name;
                 moduleInfo.Type = type;
                 moduleInfo.Attributes = type.GetCustomAttributes() as ReadOnlyCollection<Attribute>;
+                moduleInfo.ControllerTarget = GetControllerTargetOrDefault(moduleInfo.Attributes);
                 moduleInfo.Commands = GetCommands(moduleInfo);
                 commandModules.Add(moduleInfo);
             }
             ModulesInfo = commandModules.AsReadOnly();
             InstantiateModules();
+        }
+
+        private Type GetControllerTargetOrDefault(IEnumerable<Attribute> attributes)
+        {
+            foreach(var attribute in attributes)
+            {
+                if(attribute is TargetControllerAttribute targetAtt)
+                {
+                    return targetAtt.Target;
+                }
+            }
+
+            return typeof(CuviumController);
         }
 
         private void InstantiateModules()
@@ -50,11 +63,21 @@ namespace Cuvium.Commands
             {
                 return ExecutionResult.Suscess(command);
             }
+            if(!context.Controller.GetType().IsAssignableFrom(command.Module.ControllerTarget))
+            {
+                return ExecutionResult.InvalidTarget(command);
+            }
+            if(!context.Controller.GetType().IsAssignableFrom(command.ControllerTarget))
+            {
+                return ExecutionResult.InvalidTarget(command);
+            }
+
             var result = CommandsModules.TryGetValue(command.Module.Name, out var module);
             if(!result)
             {
                 return ExecutionResult.InvalidTarget(command);
             }
+
             command.MethodInfo.Invoke(module, null);
             return ExecutionResult.Suscess(command);
         }
@@ -77,22 +100,6 @@ namespace Cuvium.Commands
             return null;
         }
 
-        private IEnumerable<CommandInfo> GetAllCommands()
-        {
-            var commands = new List<CommandInfo>();
-            foreach(var module in ModulesInfo)
-            {
-                if(module.Commands is null)
-                {
-                    continue;
-                }
-                foreach(var command in module.Commands)
-                {
-                    commands.Add(command);
-                }
-            }
-            return commands;
-        }
 
         private IEnumerable<CommandInfo> GetCommands(ModuleInfo module)
         {
@@ -111,10 +118,28 @@ namespace Cuvium.Commands
                 cmd.Name = command.AttributeInfo.Name;
                 cmd.Parameters = GetParameters(command.MethodInfo) as ReadOnlyCollection<ParameterInfo>;
                 cmd.Attributes = command.MethodInfo.GetCustomAttributes() as ReadOnlyCollection<Attribute>;
+                cmd.ControllerTarget = GetControllerTargetOrDefault(cmd.Attributes);
                 cmd.MethodInfo = command.MethodInfo;
                 commandInfos.Add(cmd);
             }
             return commandInfos;
+        }
+
+        private IEnumerable<CommandInfo> GetAllCommands()
+        {
+            var commands = new List<CommandInfo>();
+            foreach(var module in ModulesInfo)
+            {
+                if(module.Commands is null)
+                {
+                    continue;
+                }
+                foreach(var command in module.Commands)
+                {
+                    commands.Add(command);
+                }
+            }
+            return commands;
         }
 
         private IEnumerable<ParameterInfo> GetParameters(MethodInfo command)
@@ -140,6 +165,7 @@ namespace Cuvium.Commands
         public IEnumerable<CommandInfo> Commands { get; internal set;}
         public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
         public string Name { get; internal set; }
+        public Type ControllerTarget { get; internal set; }
         public Type Type { get; internal set; }
 
         internal ModuleInfo(){}
@@ -150,6 +176,7 @@ namespace Cuvium.Commands
         public ReadOnlyCollection<ParameterInfo> Parameters { get; internal set; }
         public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
         public string Name { get; internal set; }
+        public Type ControllerTarget { get; internal set; }
         public ModuleInfo Module { get; internal set; }
         public MethodInfo MethodInfo { get; internal set; }
 
