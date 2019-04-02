@@ -4,31 +4,31 @@ namespace Cuvium.Commands
     {
         public string ErrorMessage { get; private set; }
         public bool HasErrorMessage { get; private set; }
-        public Command Command { get; private set; }
+        public CommandInfo Command { get; private set; }
 
-        private ExecutionResult(string errorMessage, Command command)
+        private ExecutionResult(string errorMessage, CommandInfo command)
         {
             Command = command;
             ErrorMessage = errorMessage;
             HasErrorMessage = true;
         }
 
-        private ExecutionResult(Command command)
+        private ExecutionResult(CommandInfo command)
         {
             Command = command;
             ErrorMessage = string.Empty;
             HasErrorMessage = false;
         }
-        public static ExecutionResult Suscess(Command command)
+        public static ExecutionResult Suscess(CommandInfo command)
         {
             return new ExecutionResult(command);
         }
-        public static ExecutionResult InvalidTarget(Command command)
+        public static ExecutionResult InvalidTarget(CommandInfo command)
         {
-            return new ExecutionResult("Invalid Target" + command.Context.Target.Hit.transform.name, command);
+            return new ExecutionResult("Invalid Target" + command.Name, command);
         }
 
-        public static ExecutionResult InvalidOperation(Command command)
+        public static ExecutionResult InvalidOperation(CommandInfo command)
         {
             return new ExecutionResult("Invalid Operation: " + command.Name, command);
         }

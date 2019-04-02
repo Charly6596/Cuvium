@@ -10,16 +10,6 @@ namespace Cuvium.Core
         public Unit unit;
         public UnitController prefab;
 
-        public override void Command(Command command)
-        {
-            
-        }
-
-        public override void Command(string command)
-        {
-            
-        }
-
         public void CreateUnit()
         {
             var instance = Instantiate(prefab);

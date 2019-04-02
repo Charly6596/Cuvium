@@ -19,9 +19,9 @@ namespace Cuvium.Commands
             if(context.Controller is IMoveable moveable)
             {
                 moveable.Move(destination + offset);
-                return ExecutionResult.Suscess(this);
+                return ExecutionResult.Suscess(null);
             }
-            return ExecutionResult.InvalidOperation(this);
+            return ExecutionResult.InvalidOperation(null);
         }
     }
 }

@@ -51,15 +51,6 @@ namespace Cuvium.Core
             Clear();
         }
 
-        public void Command(Command command)
-        {
-            var objs = List as List<CuviumController>;
-            foreach(var obj in objs)
-            {
-                obj.Command(command);
-            }
-        }
-
         public List<CuviumController> ToList()
         {
             return List as List<CuviumController>;

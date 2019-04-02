@@ -84,7 +84,7 @@ namespace Cuvium.Core
             {
                 case Tags.Ground:
                   //  unitManager.MoveAll(hit.point);
-                    unitManager.Command(MoveCommand);
+                    //unitManager.Command(MoveCommand);
                     break;
                 case Tags.Unit:
                    // unitManager.Attack(hit.transform.GetComponent<UnitController>());
