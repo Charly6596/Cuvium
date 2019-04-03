@@ -7,14 +7,17 @@ namespace Cuvium.Core
     [RequireComponent(typeof(DragManager))]
     public class SelectionManager : MonoBehaviour
     {
-        public Command MoveCommand;
-        public KeyCodeVariable RightClick;
-        public KeyCodeVariable LeftClick;
-        public KeyCodeVariable MultiSelectKey;
-        public KeyCodeVariable CancelKey;
+        [SerializeField]
+        private KeyCodeVariable RightClick;
+        [SerializeField]
+        private KeyCodeVariable LeftClick;
+        [SerializeField]
+        private KeyCodeVariable MultiSelectKey;
+        [SerializeField]
+        private KeyCodeVariable CancelKey;
+        [SerializeField]
+        private Player Player;
         private DragManager dragManager;
-        public KeyCodeGameEventListener keyUp;
-        public SelectedObjectCollection unitManager;
 
         public void OnKeyUp(KeyCode key)
         {
@@ -23,7 +26,6 @@ namespace Cuvium.Core
 
         public void OnKeyDown(KeyCode key)
         {
-            Debug.Log("Key Down: " + key);
         }
 
         public void OnKeyHold(KeyCode key)
@@ -70,7 +72,7 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Unit:
-                    unitManager.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
+                    Player.SelectedObjects.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
                     break;
                 case Tags.Structure:
                     CreateUnit(hit.transform.GetComponent<BuildingController>());
@@ -91,7 +93,7 @@ namespace Cuvium.Core
             var units = FindObjectsOfType<UnitController>();
             if(dragManager.TryGrabUnits(units, out var selected))
             {
-                unitManager.Select(selected, multiSelect);
+                Player.SelectedObjects.Select(selected, multiSelect);
             }
         }
 
@@ -100,7 +102,7 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Ground:
-                  //  unitManager.MoveAll(hit.point);
+                    //  unitManager.MoveAll(hit.point);
                     //unitManager.Command(MoveCommand);
                     break;
                 case Tags.Unit:
@@ -111,7 +113,7 @@ namespace Cuvium.Core
 
         private void HandleDeselectInput()
         {
-            unitManager.DeselectAll();
+            Player.SelectedObjects.DeselectAll();
         }
     }
 }

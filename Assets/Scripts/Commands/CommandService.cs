@@ -36,6 +36,7 @@ namespace Cuvium.Commands
 
         private Type GetControllerTargetOrDefault(IEnumerable<Attribute> attributes)
         {
+            if(attributes is null) { return typeof(CuviumController); }
             foreach(var attribute in attributes)
             {
                 if(attribute is TargetControllerAttribute targetAtt)
@@ -63,13 +64,9 @@ namespace Cuvium.Commands
             {
                 return ExecutionResult.Suscess(command);
             }
-            if(!context.Controller.GetType().IsAssignableFrom(command.Module.ControllerTarget))
+            if(context.Controller is null || !command.Module.ControllerTarget.IsAssignableFrom(context.Controller.GetType()))
             {
-                return ExecutionResult.InvalidTarget(command);
-            }
-            if(!context.Controller.GetType().IsAssignableFrom(command.ControllerTarget))
-            {
-                return ExecutionResult.InvalidTarget(command);
+                return ExecutionResult.Suscess(command);
             }
 
             var result = CommandsModules.TryGetValue(command.Module.Name, out var module);
@@ -78,7 +75,9 @@ namespace Cuvium.Commands
                 return ExecutionResult.InvalidTarget(command);
             }
 
-            command.MethodInfo.Invoke(module, null);
+            var moduleInst = (CommandModule) module;
+            moduleInst.Context = context;
+            command.MethodInfo.Invoke(moduleInst, null);
             return ExecutionResult.Suscess(command);
         }
 
@@ -109,10 +108,6 @@ namespace Cuvium.Commands
             var commandInfos = new List<CommandInfo>();
             foreach(var command in commands)
             {
-                if(command.MethodInfo.ReturnType != typeof(ExecutionResult))
-                {
-                    continue;
-                }
                 var cmd = new CommandInfo();
                 cmd.Module = module;
                 cmd.Name = command.AttributeInfo.Name;
@@ -158,42 +153,6 @@ namespace Cuvium.Commands
             }
             return parameterInfos;
         }
-    }
-
-    public class ModuleInfo
-    {
-        public IEnumerable<CommandInfo> Commands { get; internal set;}
-        public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
-        public string Name { get; internal set; }
-        public Type ControllerTarget { get; internal set; }
-        public Type Type { get; internal set; }
-
-        internal ModuleInfo(){}
-    }
-
-    public class CommandInfo
-    {
-        public ReadOnlyCollection<ParameterInfo> Parameters { get; internal set; }
-        public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
-        public string Name { get; internal set; }
-        public Type ControllerTarget { get; internal set; }
-        public ModuleInfo Module { get; internal set; }
-        public MethodInfo MethodInfo { get; internal set; }
-
-        internal CommandInfo()
-        {
-        }
-    }
-
-    public class ParameterInfo
-    {
-        public bool IsOptional { get; internal set; }
-        public string Name { get; internal set; }
-        public ReadOnlyCollection<Attribute> Attributes { get; internal set; }
-        public Type Type { get; internal set; }
-        public object DefaultValue { get; internal set; }
-
-        internal ParameterInfo() {}
     }
 }
 

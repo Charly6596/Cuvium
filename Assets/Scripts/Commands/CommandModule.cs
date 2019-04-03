@@ -1,8 +1,8 @@
 namespace Cuvium.Commands
 {
-    public abstract class CommandModule
+    public class CommandModule
     {
-        public CommandContext Context;
+        public CommandContext Context { get; set; }
     }
 }
 
