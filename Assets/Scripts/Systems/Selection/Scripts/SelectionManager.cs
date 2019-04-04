@@ -21,44 +21,37 @@ namespace Cuvium.Core
 
         public void OnKeyUp(KeyCode key)
         {
-            Debug.Log("Key up: " + key);
+            if(key == LeftClick.Value)
+            {
+                HandleSelectInputRelease(Input.GetKey(MultiSelectKey.Value));
+            }
         }
 
         public void OnKeyDown(KeyCode key)
         {
+            switch(key)
+            {
+                case LeftClick.Value:
+                    if(!GetHittedObject(out var hit)) { return; }
+                    HandleSelectInput(hit);
+                    break;
+                case RightClick.Value:
+                    if(!GetHittedObject(out var hit)) { return; }
+                    HandleCommandInput(hit);
+                    break;
+                case CancelKey.Value:
+                    HandleDeselectInput();
+                    break;
+            }
         }
 
         public void OnKeyHold(KeyCode key)
         {
-            Debug.Log("Hold key: " + key);
         }
 
-        void Start()
+        private void Start()
         {
             dragManager = GetComponent<DragManager>();
-        }
-
-        void Update()
-        {
-
-            if(Input.GetKeyDown(LeftClick))
-            {
-                if(!GetHittedObject(out var hit)) { return; }
-                HandleSelectInput(hit, Input.GetKey(MultiSelectKey));
-            }
-            else if(Input.GetKeyUp(LeftClick))
-            {
-                HandleSelectInputRelease(Input.GetKey(MultiSelectKey));
-            }
-            else if(Input.GetKeyDown(RightClick))
-            {
-                if(!GetHittedObject(out var hit)) { return; }
-                HandleCommandInput(hit);
-            }
-            else if(Input.GetKeyDown(CancelKey))
-            {
-                HandleDeselectInput();
-            }
         }
 
         private bool GetHittedObject(out RaycastHit hit)
@@ -106,7 +99,7 @@ namespace Cuvium.Core
                     //unitManager.Command(MoveCommand);
                     break;
                 case Tags.Unit:
-                   // unitManager.Attack(hit.transform.GetComponent<UnitController>());
+                    // unitManager.Attack(hit.transform.GetComponent<UnitController>());
                     break;
             }
         }
