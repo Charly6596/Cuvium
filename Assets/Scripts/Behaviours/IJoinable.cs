@@ -7,7 +7,6 @@ namespace Cuvium.Core
     public interface IJoinable
     {
         int Capacity { get; set; }
-        bool IsFull();
         void BeJoined(IJoiner joiner);
     }
 }

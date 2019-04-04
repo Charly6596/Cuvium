@@ -7,6 +7,7 @@ namespace Cuvium.Core
     public interface IAttackable
     {
         int Health { get; set; }
+        int MaxHealth { get; set; }
         void GetAttackedBy(IAttacker attacker);
     }
 }

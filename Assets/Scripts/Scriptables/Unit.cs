@@ -6,8 +6,9 @@ namespace Cuvium.Core
     [CreateAssetMenu(menuName = "Cuvium/Unit")]
     public class Unit : CuviumScriptable
     {
-        public float Speed;
+        public int Speed;
         public int Attack;
+        public int Health;
         public int Defense;
         public bool NeedsFood = true;
         public Sprite Icon;

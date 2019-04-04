@@ -6,7 +6,6 @@ namespace Cuvium.Core
     public interface IJoiner
     {
         void Join(IJoinable joinable);
-        void CanJoin(IJoinable joinable);
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Cuvium.Commands;
 using Cuvium.InputManager;
 
 namespace Cuvium.Core
@@ -29,19 +28,19 @@ namespace Cuvium.Core
 
         public void OnKeyDown(KeyCode key)
         {
-            switch(key)
+            if(key == LeftClick.Value)
             {
-                case LeftClick.Value:
-                    if(!GetHittedObject(out var hit)) { return; }
-                    HandleSelectInput(hit);
-                    break;
-                case RightClick.Value:
-                    if(!GetHittedObject(out var hit)) { return; }
-                    HandleCommandInput(hit);
-                    break;
-                case CancelKey.Value:
-                    HandleDeselectInput();
-                    break;
+                if(!GetHittedObject(out var hit)) { return; }
+                HandleSelectInput(hit);
+            }
+            else if(key == RightClick.Value)
+            {
+                if(!GetHittedObject(out var hit)) { return; }
+                HandleCommandInput(hit);
+            }
+            else if(key == CancelKey.Value)
+            {
+                HandleDeselectInput();
             }
         }
 
@@ -65,7 +64,8 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Unit:
-                    Player.SelectedObjects.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
+                    var controller = hit.transform.GetComponent<UnitController>();
+                    Player.SelectedObjects.Select(controller, multiSelect);
                     break;
                 case Tags.Structure:
                     CreateUnit(hit.transform.GetComponent<BuildingController>());
@@ -95,7 +95,7 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Ground:
-                    //  unitManager.MoveAll(hit.point);
+                    Player.SelectedObjects.MoveAll(hit.point);
                     //unitManager.Command(MoveCommand);
                     break;
                 case Tags.Unit:

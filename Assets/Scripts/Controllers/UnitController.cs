@@ -1,41 +1,39 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Cuvium.Behaviours;
-using Cuvium.Commands;
-using System.Linq;
 
 namespace Cuvium.Core
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class UnitController : CuviumController, IMoveable, IJoiner, IAttackable, IAttacker
     {
-        public Unit unit;
-        public Unit currentStats;
+        public int Speed { get; set; }
+        public int MaxHealth { get; set; }
+        public int Health { get; set; }
+        public int AttackPoints { get; set; }
+        public Unit BaseStats;
         [SerializeField]
         private NavMeshAgent navMesh;
 
-        void Start()
+        private void Awake()
         {
-            InitializeStats();
-            navMesh.speed = unit.Speed;
+            InitializeStats(BaseStats);
         }
 
         public void Move(Vector3 destination)
         {
-            Debug.Log(destination);
             navMesh.SetDestination(destination);
         }
 
-        private void InitializeStats()
+        public override void InitializeStats(CuviumScriptable scriptable)
         {
-            currentStats = ScriptableObject.CreateInstance<Unit>();
-            currentStats.Attack = unit.Attack;
-            currentStats.Speed = unit.Speed;
-            currentStats.Commands = unit.Commands;
-        }
-
-        void OnDisable()
-        {
+            if(scriptable is Unit unit)
+            {
+                AttackPoints = unit.Attack;
+                Speed = unit.Speed;
+                MaxHealth = unit.Health;
+                navMesh.speed = Speed;
+            }
         }
 
         public void Attack(IAttackable target)
@@ -45,14 +43,12 @@ namespace Cuvium.Core
 
         public void GetAttackedBy(IAttacker attacker)
         {
-            Health -= attacker.Attack;
+            Health -= attacker.AttackPoints;
         }
 
         public void Join(IJoinable joinable)
         {
-            if(joinable.IsFull()) { return; }
             joinable.BeJoined(this);
-
         }
     }
 }

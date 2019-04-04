@@ -21,6 +21,8 @@ namespace Cuvium.Core
             Owner.SelectedObjects.Add(this);
         }
 
+        public abstract void InitializeStats(CuviumScriptable item);
+
         protected void OnDisable()
         {
             Owner.SelectedObjects.Remove(this);

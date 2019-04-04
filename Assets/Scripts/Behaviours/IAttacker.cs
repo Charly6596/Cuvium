@@ -6,7 +6,7 @@ namespace Cuvium.Core
     /// </summary>
     public interface IAttacker
     {
-        int Attack { get; set; }
+        int AttackPoints { get; set; }
         void Attack(IAttackable target);
     }
 }

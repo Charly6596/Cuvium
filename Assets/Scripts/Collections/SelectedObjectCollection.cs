@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Cuvium.Commands;
+using Cuvium.Behaviours;
 
 namespace Cuvium.Core
 {
@@ -49,6 +49,35 @@ namespace Cuvium.Core
                 obj.Deselect();
             }
             Clear();
+        }
+
+        public void MoveAll(Vector3 destination)
+        {
+            var middle = GetMiddlePoint();
+            var controllers = ToList();
+            foreach(var controller in controllers)
+            {
+                if(controller is IMoveable moveable)
+                {
+                    var offset = controller.transform.position - middle;
+                    moveable.Move(destination + offset);
+                }
+            }
+
+        }
+
+        public List<IMoveable> GetMoveables()
+        {
+            var moveables = new List<IMoveable>();
+            var objs = ToList();
+            foreach(var obj in objs)
+            {
+                if(obj is IMoveable moveable)
+                {
+                    moveables.Add(moveable);
+                }
+            }
+            return moveables;
         }
 
         public List<CuviumController> ToList()
