@@ -10,7 +10,7 @@ namespace Cuvium.Core
         [SerializeField]
         private Text statUIPrefab;
         [SerializeField]
-        private SelectedUnitCollection selectedUnits;
+        private SelectedObjectCollection selectedUnits;
 
         private List<Text> stats;
 
@@ -33,9 +33,6 @@ namespace Cuvium.Core
                 stats.Add(attack);
                 stats.Add(speed);
                 stats.Add(faction);
-                attack.text = $"Attack: {unit.unit.Attack}";
-                speed.text = $"Speed: {unit.unit.Speed}";
-                faction.text = $"Faction: {unit.unit.Faction.Name}";
             }
             else
             {

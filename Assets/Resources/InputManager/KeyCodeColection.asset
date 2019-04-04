@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d058ef4f20c21e077af6b4092f5cb91a, type: 3}
+  m_Name: KeyCodeColection
+  m_EditorClassIdentifier: 
+  DeveloperDescription:
+    _value: 
+  _list:
+  - {fileID: 11400000, guid: 9ffbad31fe0af6acfb02cd111e7985ce, type: 2}
+  - {fileID: 11400000, guid: dabc31b928e275baba1b44484e3e5cdd, type: 2}
+  - {fileID: 11400000, guid: 6632fdd4ba8fdf2be964990e53bacce7, type: 2}
+  - {fileID: 11400000, guid: 8ad57616c067e6e06b705de8baf26cf6, type: 2}

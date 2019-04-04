@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6b0b886b7e96626949bbe4f1cf80a280
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Keys: {fileID: 11400000, guid: 8a474559e34823d99a1e15e8d1b344f2, type: 2}
+  - OnKeyDown: {fileID: 11400000, guid: 7495216b044b1a0c6a0a8a10aababf44, type: 2}
+  - OnKeyUp: {fileID: 11400000, guid: ec131eaab8c0ea217a20e13e3047821a, type: 2}
+  - OnKeyHold: {fileID: 11400000, guid: cd9d833bb4b08768f9cd590c047b81fe, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

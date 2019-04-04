@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf69585ab0b0310daf689bff2fb15b0, type: 3}
   m_Name: Player1
   m_EditorClassIdentifier: 
-  Units: []
-  UnitCollection: {fileID: 11400000, guid: b0df7a04b65287190850c8fae4cfa7ae, type: 2}
-  SelectedUnits: {fileID: 11400000, guid: 6156aea9370a3f8d49b79fc5dd80e81e, type: 2}
-  Buildings: []
+  Name: 
+  Description: 
+  Icon: {fileID: 21300000, guid: d94627e2d1722d2f6a8462de41665197, type: 3}
+  Controller: {fileID: 0}
+  SelectedObjects: {fileID: 11400000, guid: 6156aea9370a3f8d49b79fc5dd80e81e, type: 2}
   StartingFaction: {fileID: 11400000, guid: 32e7eacda2e5c14b3ade386d0cdf5148, type: 2}
+  Human: 0

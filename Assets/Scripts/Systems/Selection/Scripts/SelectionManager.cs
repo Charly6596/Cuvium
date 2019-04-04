@@ -1,43 +1,57 @@
 ﻿using UnityEngine;
+using Cuvium.Commands;
+using Cuvium.InputManager;
 
 namespace Cuvium.Core
 {
     [RequireComponent(typeof(DragManager))]
     public class SelectionManager : MonoBehaviour
     {
-        public const KeyCode CommandKey = KeyCode.Mouse1;
-        public const KeyCode SelectKey = KeyCode.Mouse0;
-        public const KeyCode MultiSelectKey = KeyCode.LeftShift;
-        public const KeyCode DeselectKey = KeyCode.Escape;
+        [SerializeField]
+        private KeyCodeVariable RightClick;
+        [SerializeField]
+        private KeyCodeVariable LeftClick;
+        [SerializeField]
+        private KeyCodeVariable MultiSelectKey;
+        [SerializeField]
+        private KeyCodeVariable CancelKey;
+        [SerializeField]
+        private Player Player;
         private DragManager dragManager;
-        public SelectedUnitCollection unitManager;
 
-        void Start()
+        public void OnKeyUp(KeyCode key)
         {
-            dragManager = GetComponent<DragManager>();
+            if(key == LeftClick.Value)
+            {
+                HandleSelectInputRelease(Input.GetKey(MultiSelectKey.Value));
+            }
         }
 
-        void Update()
+        public void OnKeyDown(KeyCode key)
         {
+            switch(key)
+            {
+                case LeftClick.Value:
+                    if(!GetHittedObject(out var hit)) { return; }
+                    HandleSelectInput(hit);
+                    break;
+                case RightClick.Value:
+                    if(!GetHittedObject(out var hit)) { return; }
+                    HandleCommandInput(hit);
+                    break;
+                case CancelKey.Value:
+                    HandleDeselectInput();
+                    break;
+            }
+        }
 
-            if(Input.GetKeyDown(SelectKey))
-            {
-                if(!GetHittedObject(out var hit)) { return; }
-                HandleSelectInput(hit, Input.GetKey(MultiSelectKey));
-            }
-            else if(Input.GetKeyUp(SelectKey))
-            {
-                HandleSelectInputRelease(Input.GetKey(MultiSelectKey));
-            }
-            else if(Input.GetKeyDown(CommandKey))
-            {
-                if(!GetHittedObject(out var hit)) { return; }
-                HandleCommandInput(hit);
-            }
-            else if(Input.GetKeyDown(DeselectKey))
-            {
-                HandleDeselectInput();
-            }
+        public void OnKeyHold(KeyCode key)
+        {
+        }
+
+        private void Start()
+        {
+            dragManager = GetComponent<DragManager>();
         }
 
         private bool GetHittedObject(out RaycastHit hit)
@@ -51,7 +65,7 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Unit:
-                    unitManager.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
+                    Player.SelectedObjects.Select(hit.transform.GetComponent<UnitController>(), multiSelect);
                     break;
                 case Tags.Structure:
                     CreateUnit(hit.transform.GetComponent<BuildingController>());
@@ -72,7 +86,7 @@ namespace Cuvium.Core
             var units = FindObjectsOfType<UnitController>();
             if(dragManager.TryGrabUnits(units, out var selected))
             {
-                unitManager.Select(selected, multiSelect);
+                Player.SelectedObjects.Select(selected, multiSelect);
             }
         }
 
@@ -81,17 +95,18 @@ namespace Cuvium.Core
             switch(hit.transform.tag)
             {
                 case Tags.Ground:
-                    unitManager.MoveAll(hit.point);
+                    //  unitManager.MoveAll(hit.point);
+                    //unitManager.Command(MoveCommand);
                     break;
                 case Tags.Unit:
-                    unitManager.Attack(hit.transform.GetComponent<UnitController>());
+                    // unitManager.Attack(hit.transform.GetComponent<UnitController>());
                     break;
             }
         }
 
         private void HandleDeselectInput()
         {
-            unitManager.DeselectAll();
+            Player.SelectedObjects.DeselectAll();
         }
     }
 }
