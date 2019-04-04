@@ -7,7 +7,7 @@ using System.Linq;
 namespace Cuvium.Core
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class UnitController : CuviumController, IMoveable
+    public class UnitController : CuviumController, IMoveable, IJoiner, IAttackable, IAttacker
     {
         public Unit unit;
         public Unit currentStats;
@@ -38,9 +38,21 @@ namespace Cuvium.Core
         {
         }
 
-        public void Attack(UnitController target)
+        public void Attack(IAttackable target)
         {
-            Move(target.transform.position);
+            target.GetAttackedBy(this);
+        }
+
+        public void GetAttackedBy(IAttacker attacker)
+        {
+            Health -= attacker.Attack;
+        }
+
+        public void Join(IJoinable joinable)
+        {
+            if(joinable.IsFull()) { return; }
+            joinable.BeJoined(this);
+
         }
     }
 }

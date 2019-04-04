@@ -6,9 +6,10 @@
 ** DONE Move to a ScriptableObject based architecture
    CLOSED: [2019-03-30 sáb 19:20]
 ** TODO Interface behaviours and commands implementation [0/3]
-   - [ ] Behaviours [0/4]
-     - [ ] IMoveable
-     - [ ] IAttackable
+   - [-] Behaviours [2/5]
+     - [X] IMoveable
+     - [X] IAttackable
+     - [ ] IAttacker -> Implement attack type system ( arrow, big sword, light sword, shield...)
      - [ ] IInteractable?
      - [ ] ...?
    - [-] Commands
